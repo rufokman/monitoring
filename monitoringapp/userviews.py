@@ -1,20 +1,7 @@
-import os
 import re
 from django_tables2 import SingleTableView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import TemplateView, FormView
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy, reverse
-from django.http import HttpResponse
-from django.template.loader import render_to_string
-from weasyprint import HTML
-import tempfile
-import datetime
-from django.core.files.storage import FileSystemStorage
-import pandas as pd
-from rest_framework import generics
-from .models import *
 from .forms import *
 from .tables import *
 
@@ -50,14 +37,18 @@ def cards_user_certain(request):
                 changed_data = form.changed_data
                 changed = form.has_changed()
                 qform = form.save(commit=False)
-                if 'save' in request.POST and changed:
-                    qform.status = 3
-                if qform.send == True and qform.status == 3 and 'send_to_check' in request.POST:
-                    qform.status = 1
-                qform.send = False
-                qform.name_of_user = credits
-                qform.verificator = choose_ver
-                qform.save()
+                if qform.status!=0:
+
+                    if 'save' in request.POST and changed :
+                        qform.status = 3
+                    if qform.send == True and qform.status == 3 and 'send_to_check' in request.POST:
+                        qform.status = 1
+                    qform.send = False
+                    qform.name_of_user = credits
+                    qform.verificator = choose_ver
+                    qform.save()
+                else:
+                    continue
 
             credits_for_url = re.sub(r"\s", '+', credits)
             choose_ver_for_url = re.sub(r"\s", "+", choose_ver)

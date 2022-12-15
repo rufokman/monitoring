@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_admin.html' %}
 {% block content %}
 {% load bootstrap3 %}
 
@@ -30,7 +30,7 @@
 		<tr>
             <td>
                 <button><a href = "{% url 'accept' form.instance.pk %}">Согласовать</a></button>
-                <button><a href = "{% url 'reject' form.instance.pk %}">Направить на доработку</a></button>
+                <button><a href = "{% url 'reject' form.instance.pk %}">На доработку</a></button>
             </td>
 			{% for field in form.visible_fields %}
 			<td>

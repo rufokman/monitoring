@@ -1,0 +1,42 @@
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная</title>
+    <link rel="stylesheet" href="{% static 'monitoringapp/css/bootstrap.min.css' %}" type="text/css">
+</head>
+<body>
+<header class="p-3 mb-3 border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                <img src='{% static "monitoringapp/img/img.png" %}' alt="logo" >
+            </a>
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="{% url 'onchecking' %}" class="nav-link px-2 link-dark">КПЭ на проверку</a></li>
+                <li><a href="{% url 'admin_pivot' %}" class="nav-link px-2 link-dark">Сводная таблица</a></li>
+
+            </ul>
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                      <h20 class="my-0">Пользователь</h20>
+                      <small class="text-muted">{{ credits }}</small>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                      <h20 class="my-0">Верификатор</h20>
+                      <small class="text-muted">{{ choose_ver }}</small>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</header>
+    {% block content %}
+    {% endblock %}
+</body>
+
+</html>

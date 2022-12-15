@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_admin.html' %}
 {% block content %}
 {% load bootstrap3 %}
 {% load render_table from django_tables2 %}
@@ -13,8 +13,7 @@
 	<button type="button" onclick="ClearFields();">Сбросить все фильтры</button>
 
   {% render_table table 'django_tables2/bootstrap.html' %}
-
-	<button><a href = "{% url 'download_user' %}">Выгрузить свод</a></button>
+	<button><a href = "{% url 'download_admin' %}">Выгрузить свод</a></button>
 
 </form>
 <script>
@@ -36,11 +35,11 @@ function search() {
   console.log(tr.length)
   for (let i = 1; i < tr.length; i++) {
     td = tr[i].cells;
-    td_organization = td[1].innerHTML;
+    td_organization = td[3].innerHTML;
     console.log(td_organization)
-    td_role = td[3].innerHTML;
-    td_fio = td[2].innerHTML;
-    td_name = td[5].innerHTML;
+    td_role = td[5].innerHTML;
+    td_fio = td[4].innerHTML;
+    td_name = td[7].innerHTML;
 
 
     if (td_role.toUpperCase().indexOf(filter_role) > -1 && td_fio.toUpperCase().indexOf(filter_fio) > -1 && td_name.toUpperCase().indexOf(filter_name) > -1

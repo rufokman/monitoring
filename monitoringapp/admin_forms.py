@@ -1,9 +1,7 @@
 from django import forms
 from .models import *
 from django.forms import modelformset_factory
-from django.core.exceptions import ValidationError
-import re
-import numpy as np
+
 
 
 class AdminCardsForm(forms.ModelForm):
@@ -36,21 +34,29 @@ class AdminCardsForm(forms.ModelForm):
 
         ]
         widgets = {
-            'updated_at': forms.TextInput(attrs={'readonly':'readonly'}),
-            'name_of_user': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'organization': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'updated_at': forms.Textarea(attrs={'rows': 2, 'readonly':'readonly'}),
+            'name_of_user': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
+            'organization': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
             'role': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
             'fio': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
             'name': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
             'status': forms.HiddenInput(),
             'verificator': forms.HiddenInput(),
-            'type': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'method': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'low_level': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'target_level': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'high_level': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'weight': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'comment': forms.Textarea(attrs={'rows': 2})
+            'type': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
+            'method': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
+            'low_level': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
+            'target_level': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
+            'high_level': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
+            'weight': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
+            'comment': forms.Textarea(attrs={'rows': 2}),
+            'first_quarter': forms.Textarea(attrs={'rows': 2}),
+            'second_quarter': forms.Textarea(attrs={'rows': 2}),
+            'third_quarter': forms.Textarea(attrs={'rows': 2}),
+            'fourth_quarter': forms.Textarea(attrs={'rows': 2}),
+            'status': forms.Textarea(attrs={'rows': 2}),
+            'reason': forms.Textarea(attrs={'rows': 2}),
+            'measure': forms.Textarea(attrs={'rows': 2}),
+            'forecast': forms.Textarea(attrs={'rows': 2}),
 
         }
 
