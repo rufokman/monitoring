@@ -1,7 +1,4 @@
-import datetime
 from django.db import models
-from apps.users.models import CustomUser
-from django.core.validators import FileExtensionValidator
 from django.utils import timezone
 
 class Config(models.Model):
@@ -21,7 +18,7 @@ class Card(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(default=timezone.now, verbose_name='Последнее обновление')
     status = models.PositiveIntegerField(choices=status_list, default=3, verbose_name="Статус")
-    send = models.BooleanField(default=False, verbose_name="Выбрать всё")
+    send = models.BooleanField(default=False, verbose_name="Выбрать все")
     name_of_user = models.TextField(verbose_name='ФИО пользователя')
     organization = models.CharField(verbose_name="Организация", max_length=300)
     role = models.CharField(max_length=1000, verbose_name="Должность")

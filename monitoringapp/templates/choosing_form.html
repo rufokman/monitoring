@@ -1,0 +1,31 @@
+{% load static %}
+{% load bootstrap3 %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Стартовая</title>
+
+    <link rel="stylesheet" href="{% static 'monitoringapp/css/bootstrap.min.css' %}" type="text/css">
+</head>
+<body>
+<header class="p-3 mb-3 border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                <img src='{% static "monitoringapp/img/img.png" %}' alt="logo" >
+            </a>
+        </div>
+    </div>
+</header>
+   <form action="{% url 'user_certain' %}" method="GET">
+      <input type="text" name = "credits"  placeholder="Введите Ваше ФИО" ></input>
+      <select name="choose_ver">
+         <option>Выберите верификатора</option>
+         {% for i in un_ver %}
+            <option>{{ i }}</option>
+         {% endfor %}
+      </select>
+      <button type="submit" class="btn btn-outline-primary">Подтвердить выбор</button>
+   </form>
+</body>
+</html>
