@@ -1,18 +1,54 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load bootstrap3 %}
-{% load render_table from django_tables2 %}
 
+<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
 
-
-<form action="" method="post">{% csrf_token %}
-    <input type="text" id="organization-search" onkeyup="search()" placeholder="Организация" class="table-search-filters">
+	<input type="text" id="organization-search" onkeyup="search()" placeholder="Организация" class="table-search-filters">
 	<input type="text" id="role-search" onkeyup="search()" placeholder="Должность" class="table-search-filters">
 	<input type="text" id="fio-search" onkeyup="search()" placeholder="ФИО сотрудника" class="table-search-filters">
 	<input type="text" id="name-search" onkeyup="search()" placeholder="Наименование КПЭ/КлС" class="table-search-filters">
 	<button type="button" onclick="ClearFields();">Сбросить все фильтры</button>
 
-  {% render_table table 'django_tables2/bootstrap.html' %}
+	<table id="formset-table">
+	{{ formset.management_form }}
+	{% for form in formset.forms %}
+		{% if forloop.first %}
+		<thead>
+		<tr>
+            <th>Решение</th>
+			{% for field in form.visible_fields %}
+			<th>
+				{{ field.label|capfirst }}
+			</th>
+			{% endfor %}
+		</tr>
+		</thead>
+		{% endif %}
+		<tbody>
+		<tr>
+            <td>
+                <button><a href = "{% url 'accept' form.instance.pk %}">Согласовать</a></button>
+                <button><a href = "{% url 'reject' form.instance.pk %}">Направить на доработку</a></button>
+            </td>
+			{% for field in form.visible_fields %}
+			<td>
+				{# Include the hidden fields in the form #}
+				{% if forloop.first %}
+					  {% for hidden in form.hidden_fields %}
+					  {{ hidden }}
+					  {% endfor %}
+				{% endif %}
+				  {{ field.errors.as_ul }}
+					{{field}}
+			</td>
+			{% endfor %}
+		</tr>
+		</tbody>
+		{% endfor %}
+	</table>
+<button type="submit">Обновить</button>
 
 </form>
 <script>
@@ -21,7 +57,7 @@ var input_role = document.getElementById("role-search");
 var input_fio = document.getElementById("fio-search");
 var input_name = document.getElementById("name-search");
 
-var table = document.getElementsByClassName("table");
+var table = document.getElementById("formset-table");
 
 function search() {
   let filter_organization = input_organization.value.toUpperCase();
@@ -29,12 +65,13 @@ function search() {
   let filter_fio = input_fio.value.toUpperCase();
   let filter_name = input_name.value.toUpperCase();
 
-  for (let i = 1; i < table.length; i++) {
-    td = table[i].cells;
-    td_organization = td[1].firstElementChild.value;
-    td_role = td[3].firstElementChild.innerHTML;
-    td_fio = td[2].firstElementChild.innerHTML;
-    td_name = td[5].firstElementChild.innerHTML;
+  let tr = table.rows;
+  for (let i = 1; i < tr.length; i++) {
+    td = tr[i].cells;
+    td_organization = td[3].firstElementChild.value;
+    td_role = td[5].firstElementChild.innerHTML;
+    td_fio = td[4].firstElementChild.innerHTML;
+    td_name = td[7].firstElementChild.innerHTML;
 
     if (td_role.toUpperCase().indexOf(filter_role) > -1 && td_fio.toUpperCase().indexOf(filter_fio) > -1 && td_name.toUpperCase().indexOf(filter_name) > -1
      && td_organization.toUpperCase().indexOf(filter_organization) > -1) {
@@ -54,4 +91,6 @@ function ClearFields() {
      window.location.reload();
 };
 </script>
+
 {% endblock %}
+
