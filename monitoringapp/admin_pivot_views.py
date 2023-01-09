@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
+from django.http import HttpResponseRedirect
 from .admin_forms import *
 from .models import *
 from django_tables2 import SingleTableView
@@ -17,16 +18,19 @@ from .tables import *
 #
 #         return context
 
+
 class AdminPivotView(SingleTableView):
+    SingleTableView.table_pagination = False
     template_name = "admin_pivot_tab.html"
     table_class = AdminCardTable
-    queryset = Card.objects.filter(status=0, delete=0)
+    # queryset = Card.objects.filter(status=0, delete=0)
+    queryset = Card.objects.filter(delete=0)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        data = Card.objects.filter(status=0, delete=0)
+        # data = Card.objects.filter(status=0, delete=0)
+        data = Card.objects.filter(delete=0)
         context['data'] = data
-
         return context
 
 
@@ -62,6 +66,7 @@ def accept_kpi(request, pk):
     card_data.save(update_fields=['status'])
     return redirect('onchecking')
 
+
 def reject_kpi(request, pk):
 
     card_data = get_object_or_404(Card, pk=pk)
@@ -73,7 +78,8 @@ def reject_kpi(request, pk):
 def reject_pivot(request, pk):
 
     card_data = get_object_or_404(Card, pk=pk)
-    card_data.status = 2
+    if card_data.status == 0:
+        card_data.status = 2
     card_data.save(update_fields=['status'])
     return redirect('admin_pivot')
 

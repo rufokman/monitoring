@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load bootstrap3 %}
+<style type="text/css">
+.a0 { background-color:#b2ec5d; }
+.a1 { background-color:#fdc433; }
+.a2 { background-color:#cb4154; }
+.a3 { background-color:#f0f8ff; }
+
+</style>
+
+<form id="data" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+
+	<input type="text" id="name-search" onkeyup="search()" placeholder="Наименование КПЭ/КлС" class="table-search-filters">
+	<button type="button" onclick="ClearFields();">Сбросить все фильтры</button>
+
+	<table id="formset-table">
+	{{ formset.management_form }}
+	{% for form in formset.forms %}
+		{% if forloop.first %}
+		<thead>
+		<tr>
+			<th colspan="12" bgcolor="#D3D3D3"> Данные по КПЭ</th>
+            <th colspan="7" bgcolor="#00BFFF"> Прогноз, заполняется верификатором</th>
+
+		</tr>
+		<tr>
+            {% for field in form.visible_fields %}
+			<th>
+                {% if forloop.first %}
+                <p><input type="checkbox" id="select_all"/></p>
+                {% else %}
+				{{ field.label|capfirst }}
+                {% endif %}
+			</th>
+			{% endfor %}
+		</tr>
+		</thead>
+		{% endif %}
+		<tbody>
+		<script>
+			var select_all = document.getElementById("select_all"); //select all checkbox
+			 var checkboxes = document.querySelectorAll('input[type=checkbox]');
+			 //checkbox items
+
+			//select all checkboxes
+			select_all.addEventListener("change", function(e){
+			for (i = 0; i < checkboxes.length; i++) {
+			  checkboxes[i].checked = select_all.checked;
+		   }
+		  });
+
+
+		  for (var i =0; i < checkboxes.length; i++) {
+		  checkboxes[i].addEventListener('change', function(e){ //".checkbox" change
+			  //uncheck "select all", if one of the listed checkbox item is unchecked
+			  if(this.checked == false){
+				  select_all.checked = false;
+			  }
+			  //check "select all" if all checkbox items are checked
+			  if(document.querySelectorAll('.checkbox:checked').length == checkboxes.length){
+				  select_all.checked = true;
+			  }
+		  });
+		   }
+	   </script>
+		<tr class='a{{form.status.value}}'>
+			{% for field in form.visible_fields %}
+			<td>
+				{# Include the hidden fields in the form #}
+				{% if forloop.first %}
+					  {% for hidden in form.hidden_fields %}
+					  {{ hidden }}
+					  {% endfor %}
+				{% endif %}
+				  {{ field.errors.as_ul }}
+					{{field}}
+			</td>
+			{% endfor %}
+		</tr>
+		</tbody>
+		{% endfor %}
+	</table>
+	<input form="data" name='save' type="submit" value="Сохранить" >
+	<input form='data' name='send_to_check' type="submit"  value="Сохранить и отправить">
+</form>
+
+<script>
+var input_name = document.getElementById("name-search");
+
+var table = document.getElementById("formset-table");
+
+function search() {
+  let filter_name = input_name.value.toUpperCase();
+
+  let tr = table.rows;
+  for (let i = 2; i < tr.length; i++) {
+    td = tr[i].cells;
+    td_name = td[5].firstElementChild.innerHTML;
+
+    if (td_name.toUpperCase().indexOf(filter_name) > -1)
+      {
+      tr[i].style.display = "";
+    } else
+      tr[i].style.display = "none";
+  }
+};
+
+function ClearFields() {
+
+     document.getElementById("name-search").value = "";
+
+     window.location.reload();
+};
+</script>
+
+{% endblock %}

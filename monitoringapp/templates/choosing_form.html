@@ -25,7 +25,16 @@
             <option>{{ i }}</option>
          {% endfor %}
       </select>
-      <button type="submit" class="btn btn-outline-primary">Подтвердить выбор</button>
+      <button type="submit" class="btn btn-outline-primary">Войти как верификатор</button>
+   </form>
+   <form action="{% url 'own_certain' %}" method="GET">
+      <select name="choose_own">
+         <option>Выберите владельца</option>
+         {% for i in un_own %}
+            <option>{{ i }}</option>
+         {% endfor %}
+      </select>
+      <button type="submit" class="btn btn-outline-primary">Войти как владелец</button>
    </form>
 </body>
 </html>

@@ -33,22 +33,27 @@ class CardsFormCertain(forms.ModelForm):
         ]
         widgets = {
             'send': forms.CheckboxInput(),
-            'organization': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'role': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
-            'fio': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
-            'name': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
+            'organization': forms.Textarea(attrs={'rows': 4, 'cols':15, 'readonly': 'readonly', 'disabled':'disabled'}),
+            'role': forms.Textarea(attrs={'rows': 4, 'readonly': 'readonly', 'disabled':'disabled', 'cols':20}),
+            'fio': forms.Textarea(attrs={'rows': 4, 'readonly': 'readonly', 'disabled':'disabled', 'cols':10}),
+            'name': forms.Textarea(attrs={'rows': 4, 'readonly': 'readonly','disabled':'disabled', 'cols':20}),
             'status': forms.HiddenInput(),
             'name_of_user': forms.HiddenInput(),
             'verificator': forms.HiddenInput(),
-            'comment': forms.TextInput(attrs={'readonly': 'readonly'}),
-
-            'type': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'method': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'low_level': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'target_level': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'high_level': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'weight': forms.TextInput(attrs={'readonly': 'readonly'}),
-
+            'comment': forms.Textarea(attrs={'readonly': 'readonly', 'disabled':'disabled', 'cols':15, 'rows': 4,}),
+            'type': forms.Textarea(attrs={'readonly': 'readonly', 'disabled':'disabled', 'cols':10, 'rows': 4, }),
+            'method': forms.Textarea(attrs={'readonly': 'readonly', 'disabled':'disabled', 'cols':12, 'rows': 4, }),
+            'low_level': forms.Textarea(attrs={'rows': 4, 'readonly': 'readonly', 'disabled':'disabled', 'cols': 10, }),
+            'target_level': forms.Textarea(attrs={'rows': 4, 'readonly': 'readonly', 'disabled':'disabled', 'cols':10, }),
+            'high_level': forms.Textarea(attrs={'readonly': 'readonly', 'disabled':'disabled', 'cols':10, 'rows':4}),
+            'weight': forms.Textarea(attrs={'readonly': 'readonly', 'disabled':'disabled', 'cols':3, 'rows':4}),
+            'reason': forms.Textarea(attrs={'cols':20, 'rows':4}),
+            'measure': forms.Textarea(attrs={'cols':20, 'rows':4}),
+            'forecast': forms.Textarea(attrs={'cols':20, 'rows':4}),
+            'first_quarter': forms.Textarea(attrs={'cols':10, 'rows':4}),
+            'second_quarter': forms.Textarea(attrs={'cols':10, 'rows':4}),
+            'third_quarter': forms.Textarea(attrs={'cols':10, 'rows':4}),
+            'fourth_quarter': forms.Textarea(attrs={'cols':10, 'rows':4}),
         }
 
 
