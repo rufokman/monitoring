@@ -10,10 +10,13 @@
 	<input type="text" id="role-search" onkeyup="search()" placeholder="Должность" class="table-search-filters">
 	<input type="text" id="fio-search" onkeyup="search()" placeholder="ФИО сотрудника" class="table-search-filters">
 	<input type="text" id="name-search" onkeyup="search()" placeholder="Наименование КПЭ/КлС" class="table-search-filters">
+	<input type="text" id="status-search" onkeyup="search()" placeholder="Статус" class="table-search-filters">
 	<button type="button" onclick="ClearFields();">Сбросить все фильтры</button>
+	<button><a href = "{% url 'download_admin' %}">Выгрузить свод</a></button>
+	<button><a href = "{% url 'download_admin_log' %}">Выгрузить лог</a></button>
 
   {% render_table table 'django_tables2/bootstrap.html' %}
-	<button><a href = "{% url 'download_admin' %}">Выгрузить свод</a></button>
+
 
 </form>
 <script>
@@ -21,6 +24,7 @@ var input_organization = document.getElementById("organization-search");
 var input_role = document.getElementById("role-search");
 var input_fio = document.getElementById("fio-search");
 var input_name = document.getElementById("name-search");
+var input_status = document.getElementById("status-search");
 
 var table = document.getElementsByClassName("table");
 
@@ -29,21 +33,22 @@ function search() {
   let filter_role = input_role.value.toUpperCase();
   let filter_fio = input_fio.value.toUpperCase();
   let filter_name = input_name.value.toUpperCase();
+  let filter_status = input_status.value.toUpperCase();
 
 
   let tr =table[0].rows;
   console.log(tr.length)
   for (let i = 1; i < tr.length; i++) {
     td = tr[i].cells;
-    td_organization = td[3].innerHTML;
-    console.log(td_organization)
-    td_role = td[5].innerHTML;
-    td_fio = td[4].innerHTML;
-    td_name = td[7].innerHTML;
+    td_organization = td[4].innerHTML;
+    td_role = td[6].innerHTML;
+    td_fio = td[5].innerHTML;
+    td_name = td[8].innerHTML;
+    td_status = td[2].innerHTML;
 
 
     if (td_role.toUpperCase().indexOf(filter_role) > -1 && td_fio.toUpperCase().indexOf(filter_fio) > -1 && td_name.toUpperCase().indexOf(filter_name) > -1
-     && td_organization.toUpperCase().indexOf(filter_organization) > -1) {
+     && td_organization.toUpperCase().indexOf(filter_organization) > -1 && td_status.toUpperCase().indexOf(filter_status) > -1) {
       tr[i].style.display = "";
     } else
       tr[i].style.display = "none";
@@ -56,6 +61,7 @@ function ClearFields() {
      document.getElementById("role-search").value = "";
      document.getElementById("fio-search").value = "";
      document.getElementById("name-search").value = "";
+     document.getElementById("status-search").value = "";
 
      window.location.reload();
 };

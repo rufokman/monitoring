@@ -33,7 +33,7 @@ class CardsFormCertain(forms.ModelForm):
         ]
         widgets = {
             'send': forms.CheckboxInput(),
-            'organization': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'organization': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
             'role': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
             'fio': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
             'name': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
@@ -41,12 +41,11 @@ class CardsFormCertain(forms.ModelForm):
             'name_of_user': forms.HiddenInput(),
             'verificator': forms.HiddenInput(),
             'comment': forms.TextInput(attrs={'readonly': 'readonly'}),
-
             'type': forms.TextInput(attrs={'readonly': 'readonly'}),
             'method': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'low_level': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'target_level': forms.TextInput(attrs={'readonly': 'readonly'}),
-            'high_level': forms.TextInput(attrs={'readonly': 'readonly'}),
+            'low_level': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
+            'target_level': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
+            'high_level': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
             'weight': forms.TextInput(attrs={'readonly': 'readonly'}),
 
         }

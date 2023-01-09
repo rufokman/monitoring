@@ -110,6 +110,8 @@ LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'Europe/Moscow'
 
+SHORT_DATETIME_FORMAT = 'd.m.Y H:i:s'
+
 USE_I18N = True
 
 USE_L10N = False

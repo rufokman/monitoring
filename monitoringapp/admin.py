@@ -3,4 +3,5 @@ from .models import *
 
 
 admin.site.register(Card)
+admin.site.register(CardLog)
 admin.site.register(Config)

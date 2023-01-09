@@ -17,6 +17,7 @@ class AdminCardTable(tables.Table):
         template_name = "django_tables2/bootstrap.html"
         fields = ('counter',
                   'updated_at',
+                  'status',
                   'name_of_user',
                   'organization',
                   'fio',
