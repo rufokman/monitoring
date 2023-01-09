@@ -3,7 +3,6 @@ from .models import *
 from django.forms import modelformset_factory
 
 
-
 class AdminCardsForm(forms.ModelForm):
 
     class Meta:
@@ -34,7 +33,7 @@ class AdminCardsForm(forms.ModelForm):
 
         ]
         widgets = {
-            'updated_at': forms.DateTimeInput(format='%d.%m.%Y %H:%M:%S', attrs={'rows': 2, 'readonly':'readonly'}),
+            'updated_at': forms.DateTimeInput(format='%d.%m.%Y %H:%M:%S', attrs={'rows': 2, 'readonly': 'readonly'}),
             'name_of_user': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
             'organization': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
             'role': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),

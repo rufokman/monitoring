@@ -3,11 +3,13 @@ from .models import *
 
 import itertools
 
+
 class AdminCardTable(tables.Table):
     counter = tables.Column(empty_values=(), orderable=False, verbose_name="№ п/п")
     btnaccept = tables.TemplateColumn(verbose_name=(''),
                                       template_name='btnaccept.html',
                                       orderable=False)
+
     def render_counter(self):
         self.row_counter = getattr(self, 'row_counter', itertools.count())
         return next(self.row_counter) + 1

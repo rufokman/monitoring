@@ -10,7 +10,6 @@ import xlsxwriter
 
 def get_update_data_not_fix():
 
-	#card_data = Card.objects.filter(status=0, delete=0)
 	card_data = Card.objects.filter(delete=0)
 
 	return card_data
@@ -51,7 +50,7 @@ def download_excel_admin(request):
 			   "Верхний уровень", "Вес", "Комментарий администратора",
 			   "Прогноз 1 кв", "Прогноз 2 кв", "Прогноз 3 кв", "Прогноз 4 кв",
 			   "Причина отклонения", "Предпринимаемые меры", "Прогнозное значение",
-			   "Верификатор", "Последнее обновление", "ФИО пользователя", "Статус"
+			   "Верификатор", "Последнее обновление", "ФИО пользователя", "Статуc"
 			   ]
 	row_num = 0
 	for col_num in range(len(columns)):
@@ -90,7 +89,6 @@ def download_excel_admin(request):
 
 def get_update_data_not_fix_log():
 
-	#card_data = Card.objects.filter(status=0, delete=0)
 	card_data_log = CardLog.objects.filter(delete=0)
 
 	return card_data_log
@@ -103,7 +101,7 @@ def download_excel_admin_log(request):
 	workbook = xlsxwriter.Workbook(response, {'in_memory': True})
 	format = workbook.add_format()
 	format.set_bg_color('#fdc433')
-	ws = workbook.add_worksheet('Реестр')
+	ws = workbook.add_worksheet('Лог')
 	format_date = workbook.add_format({'num_format': 'dd.mm.yyyy hh:mm:ss'})
 
 	ws.set_column('A:A', 5)
@@ -131,13 +129,12 @@ def download_excel_admin_log(request):
 			   "Верхний уровень", "Вес", "Комментарий администратора",
 			   "Прогноз 1 кв", "Прогноз 2 кв", "Прогноз 3 кв", "Прогноз 4 кв",
 			   "Причина отклонения", "Предпринимаемые меры", "Прогнозное значение",
-			   "Верификатор", "Последнее обновление", "ФИО пользователя", "Статус"
-			   ]
+			   "Верификатор", "Последнее обновление", "ФИО пользователя", "Статуc"]
 	row_num = 0
 	for col_num in range(len(columns)):
 		ws.write(row_num, col_num, columns[col_num])
 
-	row_num=0
+	row_num = 0
 	for my_row in get_update_data_not_fix_log():
 		row_num = row_num + 1
 		ws.write(row_num, 0, row_num)

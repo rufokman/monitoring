@@ -31,7 +31,6 @@ class AdminPivotView(SingleTableView):
         # data = Card.objects.filter(status=0, delete=0)
         data = Card.objects.filter(delete=0)
         context['data'] = data
-
         return context
 
 
