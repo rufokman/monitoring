@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import *
 from .tables import *
 import pandas as pd
+import datetime
 import openpyxl as opx
 from django.core.files.storage import FileSystemStorage
 
@@ -124,6 +125,10 @@ def import_excel(request):
             excel_file = uploaded_file_url
             empexceldata = pd.read_excel('.' + excel_file, engine='openpyxl') #Назвать исходный файл латиницей
             dbframe = empexceldata
+            for i in range(dbframe.shape[0]):  # iterate over rows
+                for j in range(dbframe.shape[1]):  # iterate over columns
+                    if isinstance(dbframe.iloc[i, j], datetime.datetime):
+                        dbframe.iloc[i, j] = dbframe.iloc[i, j].strftime('%d.%m.%Y')  # Задаем формат даты
             # Получим общий список записей
             dflist = []
             for i in dbframe.index:
@@ -157,11 +162,11 @@ def import_excel(request):
                         dbframe.iloc[i, j] = "-"
             for dbframe in dbframe.itertuples():
                 obj = Card.objects.create(name_of_user='start_user', organization=dbframe[1], fio=dbframe[2],
-                                          role=dbframe[3], id_kpi=dbframe[4],
+                                          role=dbframe[3], type=dbframe[4],
                                           name=dbframe[5], method=dbframe[6],
                                           low_level=dbframe[7], target_level=dbframe[8],
                                           high_level=dbframe[9], weight=dbframe[10],
-                                          verificator=dbframe[12])
+                                          verificator=dbframe[11])
                 obj.save()
 
             return render(request, 'import_excel.html', {
