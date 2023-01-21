@@ -37,7 +37,6 @@ def cards_user_certain(request):
     data = Card.objects.filter(verificator__exact=choose_ver, delete=0)
     config_data = Config.objects.first()
     # allow_edit = config_data.allow_edit
-
     if request.method == 'POST':
         formset = CardFormSetCertain(request.POST, queryset=data)
         if formset.is_valid():

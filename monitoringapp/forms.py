@@ -4,6 +4,10 @@ from django.forms import modelformset_factory
 
 
 class CardsFormCertain(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CardsFormCertain, self).__init__(*args, **kwargs)
+        self.fields['name_of_user'].required = False
+
     class Meta:
         model = Card
         fields = [

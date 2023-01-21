@@ -40,7 +40,14 @@ INSTALLED_APPS = [
     'monitoringapp',
     'bootstrap3',
     "django_tables2",
+    "dbbackup",
 ]
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': BASE_DIR / 'backup'}
+
+# python manage.py dbbackup - сделать бэкап
+# python manage.py dbrestore - восстановиться из последнего бэкапа, при этом текущая база должна быть удалена
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
