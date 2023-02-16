@@ -7,6 +7,9 @@ class CardsFormCertain(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CardsFormCertain, self).__init__(*args, **kwargs)
         self.fields['name_of_user'].required = False
+        if self.get_initial_for_field(self.fields['status'], 'status') == 0:  # Если КПЭ согласован, то неизменяемый
+            for fieldname in self.fields:
+                self.fields[fieldname].disabled = True
 
     class Meta:
         model = Card
@@ -51,8 +54,8 @@ class CardsFormCertain(forms.ModelForm):
             'target_level': forms.Textarea(attrs={'rows': 4, 'readonly': 'readonly', 'cols':10, }),
             'high_level': forms.Textarea(attrs={'readonly': 'readonly',  'cols':10, 'rows':4}),
             'weight': forms.Textarea(attrs={'readonly': 'readonly',  'cols':10, 'rows':4}),
-            'reason': forms.Textarea(attrs={'cols':20, 'rows':4}),
-            'measure': forms.Textarea(attrs={'cols':20, 'rows':4}),
+            'reason': forms.Textarea(attrs={'cols':30, 'rows':4}),
+            'measure': forms.Textarea(attrs={'cols':30, 'rows':4}),
             'forecast': forms.Textarea(attrs={'cols':20, 'rows':4}),
             'first_quarter': forms.Textarea(attrs={'cols':10, 'rows':4}),
             'second_quarter': forms.Textarea(attrs={'cols':10, 'rows':4}),

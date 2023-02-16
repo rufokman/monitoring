@@ -40,7 +40,7 @@ class AdminCardsForm(forms.ModelForm):
             'fio': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
             'name': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
             'status': forms.HiddenInput(),
-            'verificator': forms.HiddenInput(),
+            'verificator': forms.Textarea(attrs={'rows': 2}),
             'type': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
             'method': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
             'low_level': forms.Textarea(attrs={'rows': 2, 'readonly': 'readonly'}),
@@ -55,6 +55,7 @@ class AdminCardsForm(forms.ModelForm):
             'reason': forms.Textarea(attrs={'rows': 2}),
             'measure': forms.Textarea(attrs={'rows': 2}),
             'forecast': forms.Textarea(attrs={'rows': 2}),
+
 
         }
 

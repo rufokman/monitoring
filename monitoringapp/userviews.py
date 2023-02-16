@@ -15,7 +15,7 @@ from django.core.files.storage import FileSystemStorage
 def choosing_form(request):
     un_ver = Card.objects.all().values_list('verificator', flat=True).distinct().exclude(verificator='-')  # Уникальные верификаторы
     un_own = Card.objects.filter(verificator='-').values_list('fio', flat=True).distinct()  # Уникальные владельцы с пустым верификатором
-    no_ver = Card.objects.filter(verificator='-').values_list('verificator', flat=True).distinct()  # Дефис в верифиакторе
+    no_ver = Card.objects.filter(verificator='-').values_list('verificator', flat=True).distinct()  # Дефис в верифиакторе (пустой)
     if request.method == 'POST':
         if request.POST['choose_ver'] != 'Выберите верификатора':
             data = Card.objects.filter(verificator__exact=request.POST['choose_ver'], delete=0)
