@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load bootstrap3 %}
+{% load static %}
 <style type="text/css">
 .a0 { background-color:#b2ec5d; }
 .a1 { background-color:#fdc433; }
@@ -83,9 +84,10 @@
 		{% endfor %}
 	</table>
 	<input form="data" name='save' type="submit" value="Сохранить" >
-	<input form='data' name='send_to_check' type="submit"  value="Сохранить и отправить">
+	<input form='data' name='send_to_check' type="submit" onclick="return sendValid()" value="Сохранить и отправить">
 </form>
 
+<script src="{% static 'monitoringapp/js/send.js' %}"></script>
 <script>
 var input_name = document.getElementById("name-search");
 
