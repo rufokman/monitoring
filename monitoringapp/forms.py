@@ -1,32 +1,12 @@
 from django import forms
 from .models import *
 from django.forms import modelformset_factory
-from datetime import datetime
 
 
 class CardsFormCertain(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CardsFormCertain, self).__init__(*args, **kwargs)
         self.fields['name_of_user'].required = False
-        if self.get_initial_for_field(self.fields['status'], 'status') == 0:  # Если КПЭ согласован, то неизменяемый
-            for fieldname in self.fields:
-                self.fields[fieldname].disabled = True
-        if datetime.now().month <= 3:  # В зависимости от текущего квартала закрываем редактирование
-            self.fields['first_quarter'].disabled = True
-            self.fields['second_quarter'].disabled = True
-            self.fields['third_quarter'].disabled = True
-        if (datetime.now().month > 3) and (datetime.now().month <= 6):
-            self.fields['second_quarter'].disabled = True
-            self.fields['third_quarter'].disabled = True
-            self.fields['fourth_quarter'].disabled = True
-        if (datetime.now().month > 6) and (datetime.now().month <= 9):
-            self.fields['first_quarter'].disabled = True
-            self.fields['third_quarter'].disabled = True
-            self.fields['fourth_quarter'].disabled = True
-        if (datetime.now().month > 9) and (datetime.now().month <= 12):
-            self.fields['first_quarter'].disabled = True
-            self.fields['second_quarter'].disabled = True
-            self.fields['fourth_quarter'].disabled = True
 
     class Meta:
         model = Card
