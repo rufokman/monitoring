@@ -25,6 +25,7 @@ class Card(models.Model):
     role = models.CharField(max_length=1000, verbose_name="Должность")
     fio = models.CharField(max_length=1000, verbose_name="ФИО сотрудника, в чью карту устанавливается КПЭ")
     id_kpi = models.CharField(max_length=300, verbose_name='Идентификатор КПЭ', default='-')
+    group = models.CharField(max_length=300, verbose_name='Группа', default='-')
     type = models.CharField(max_length=100, verbose_name='КПЭ/КлС', default='-')
     name = models.CharField(max_length=1000, verbose_name='Наименование КПЭ / КлС')
     method = models.CharField(max_length=1000, verbose_name='Тип КПЭ/КлС')
@@ -32,8 +33,11 @@ class Card(models.Model):
     target_level = models.CharField(max_length=3000, verbose_name='Целевой уровень')
     high_level = models.CharField(max_length=3000, verbose_name="Верхний уровень")
     weight = models.IntegerField(verbose_name='Вес КПЭ/Значимость КлС')
+    first_quarter_fact = models.CharField(max_length=1000, blank=True, verbose_name='Факт 1 кв')
     first_quarter=models.CharField(max_length=1000, blank=True, verbose_name='Прогноз 1 кв')
+    second_quarter_fact = models.CharField(max_length=1000, blank=True, verbose_name='Факт 2 кв')
     second_quarter=models.CharField(max_length=1000, blank=True, verbose_name='Прогноз 2 кв')
+    third_quarter_fact = models.CharField(max_length=1000, blank=True, verbose_name='Факт 3 кв')
     third_quarter = models.CharField(max_length=1000, blank=True, verbose_name='Прогноз 3 кв')
     fourth_quarter = models.CharField(max_length=1000, blank=True, verbose_name='Прогноз 4 кв')
     reason = models.CharField(max_length=1000, blank=True, null=True, verbose_name='Причина отклонения')
@@ -50,10 +54,12 @@ class Card(models.Model):
             if orig.status != self.status:
                 CardLog.objects.create(created_at=self.created_at, updated_at=self.updated_at, status=self.status,
                                        send=self.send, name_of_user=self.name_of_user, organization=self.organization,
-                                       role=self.role, fio=self.fio, id_kpi=self.id_kpi, type=self.type, name=self.name,
-                                       method=self.method, low_level=self.low_level, target_level=self.target_level,
-                                       high_level=self.high_level, weight=self.weight, first_quarter=self.first_quarter,
-                                       second_quarter=self.second_quarter, third_quarter=self.third_quarter,
+                                       role=self.role, fio=self.fio, id_kpi=self.id_kpi, group=self.group,
+                                       type=self.type, name=self.name, method=self.method, low_level=self.low_level,
+                                       target_level=self.target_level, high_level=self.high_level, weight=self.weight,
+                                       first_quarter_fact=self.first_quarter_fact, first_quarter=self.first_quarter,
+                                       second_quarter_fact=self.second_quarter_fact, second_quarter=self.second_quarter,
+                                       third_quarter_fact=self.third_quarter_fact, third_quarter=self.third_quarter,
                                        fourth_quarter=self.fourth_quarter, reason=self.reason, measure=self.measure,
                                        forecast=self.forecast, verificator=self.verificator, delete=self.delete,
                                        comment=self.comment)
@@ -78,6 +84,7 @@ class CardLog(models.Model):
     role = models.CharField(max_length=1000, verbose_name="Должность")
     fio = models.CharField(max_length=1000, verbose_name="ФИО сотрудника, в чью карту устанавливается КПЭ")
     id_kpi = models.CharField(max_length=300, verbose_name='Идентификатор КПЭ', default='-')
+    group = models.CharField(max_length=300, verbose_name='Группа', default='-')
     type = models.CharField(max_length=100, verbose_name='КПЭ/КлС', default='-')
     name = models.CharField(max_length=1000, verbose_name='Наименование КПЭ / КлС')
     method = models.CharField(max_length=1000, verbose_name='Тип КПЭ/КлС')
@@ -85,8 +92,11 @@ class CardLog(models.Model):
     target_level = models.CharField(max_length=3000, verbose_name='Целевой уровень')
     high_level = models.CharField(max_length=3000, verbose_name="Верхний уровень")
     weight = models.IntegerField(verbose_name='Вес КПЭ/Значимость КлС')
+    first_quarter_fact = models.CharField(max_length=1000, blank=True, verbose_name='Факт 1 кв')
     first_quarter = models.CharField(max_length=1000, blank=True, verbose_name='Прогноз 1 кв')
+    second_quarter_fact = models.CharField(max_length=1000, blank=True, verbose_name='Факт 2 кв')
     second_quarter = models.CharField(max_length=1000, blank=True, verbose_name='Прогноз 2 кв')
+    third_quarter_fact = models.CharField(max_length=1000, blank=True, verbose_name='Факт 3 кв')
     third_quarter = models.CharField(max_length=1000, blank=True, verbose_name='Прогноз 3 кв')
     fourth_quarter = models.CharField(max_length=1000, blank=True, verbose_name='Прогноз 4 кв')
     reason = models.CharField(max_length=1000, blank=True, null=True, verbose_name='Причина отклонения')

@@ -12,21 +12,27 @@ class CardsFormCertain(forms.ModelForm):
             for fieldname in self.fields:
                 self.fields[fieldname].disabled = True
         if datetime.now().month <= 3:  # В зависимости от текущего квартала закрываем редактирование
+            self.fields['first_quarter_fact'].disabled = True
             self.fields['first_quarter'].disabled = True
+            self.fields['second_quarter_fact'].disabled = True
             self.fields['second_quarter'].disabled = True
+            self.fields['third_quarter_fact'].disabled = True
             self.fields['third_quarter'].disabled = True
         if (datetime.now().month > 3) and (datetime.now().month <= 6):
+            self.fields['second_quarter_fact'].disabled = True
             self.fields['second_quarter'].disabled = True
+            self.fields['third_quarter_fact'].disabled = True
             self.fields['third_quarter'].disabled = True
-            self.fields['fourth_quarter'].disabled = True
         if (datetime.now().month > 6) and (datetime.now().month <= 9):
+            self.fields['first_quarter_fact'].disabled = True
             self.fields['first_quarter'].disabled = True
+            self.fields['third_quarter_fact'].disabled = True
             self.fields['third_quarter'].disabled = True
-            self.fields['fourth_quarter'].disabled = True
         if (datetime.now().month > 9) and (datetime.now().month <= 12):
+            self.fields['first_quarter_fact'].disabled = True
             self.fields['first_quarter'].disabled = True
+            self.fields['second_quarter_fact'].disabled = True
             self.fields['second_quarter'].disabled = True
-            self.fields['fourth_quarter'].disabled = True
 
     class Meta:
         model = Card
@@ -43,10 +49,12 @@ class CardsFormCertain(forms.ModelForm):
             'high_level',
             'weight',
             'comment',
+            'first_quarter_fact',
             'first_quarter',
+            'second_quarter_fact',
             'second_quarter',
+            'third_quarter_fact',
             'third_quarter',
-            'fourth_quarter',
             'status',
             'reason',
             'measure',
@@ -74,10 +82,12 @@ class CardsFormCertain(forms.ModelForm):
             'reason': forms.Textarea(attrs={'cols':20, 'rows':4}),
             'measure': forms.Textarea(attrs={'cols':20, 'rows':4}),
             'forecast': forms.Textarea(attrs={'cols':20, 'rows':4}),
+            'first_quarter_fact': forms.Textarea(attrs={'cols': 10, 'rows': 4}),
             'first_quarter': forms.Textarea(attrs={'cols':10, 'rows':4}),
+            'second_quarter_fact': forms.Textarea(attrs={'cols': 10, 'rows': 4}),
             'second_quarter': forms.Textarea(attrs={'cols':10, 'rows':4}),
+            'third_quarter_fact': forms.Textarea(attrs={'cols': 10, 'rows': 4}),
             'third_quarter': forms.Textarea(attrs={'cols':10, 'rows':4}),
-            'fourth_quarter': forms.Textarea(attrs={'cols':10, 'rows':4}),
         }
 
 

@@ -48,7 +48,7 @@ def download_excel_admin(request):
 			   'КПЭ / КлС2', 'Наименование КПЭ / КлС', 'Тип КПЭ/КлС',
 			    'Нижний уровень', "Целевой уровень",
 			   "Верхний уровень", "Вес КПЭ/Значимость КлС", "Комментарий СУП УК",
-			   "Прогноз 1 кв", "Прогноз 2 кв", "Прогноз 3 кв", "Прогноз 4 кв",
+			   "Факт 1 кв", "Прогноз 1 кв", "Факт 2 кв", "Прогноз 2 кв", "Факт 3 кв", "Прогноз 3 кв",
 			   "Причина отклонения", "Мероприятия по снижению риска невыполнения", "Прогнозируемый результат после реализации мероприятий",
 			   "Верификатор", "Последнее обновление", "ФИО пользователя", "Статуc"
 			   ]
@@ -71,17 +71,19 @@ def download_excel_admin(request):
 		ws.write(row_num, 9, my_row.high_level)
 		ws.write(row_num, 10, my_row.weight)
 		ws.write(row_num, 11, my_row.comment)
-		ws.write(row_num, 12, my_row.first_quarter)
-		ws.write(row_num, 13,  my_row.second_quarter)
-		ws.write(row_num, 14, my_row.third_quarter)
-		ws.write(row_num, 15, my_row.fourth_quarter)
-		ws.write(row_num, 16, my_row.reason)
-		ws.write(row_num, 17, my_row.measure)
-		ws.write(row_num, 18, my_row.forecast)
-		ws.write(row_num, 19, my_row.verificator)
-		ws.write(row_num, 20, my_row.updated_at.replace(tzinfo=None), format_date)
-		ws.write(row_num, 21, my_row.name_of_user)
-		ws.write(row_num, 22, my_row.status_list[my_row.status][1])
+		ws.write(row_num, 12, my_row.first_quarter_fact)
+		ws.write(row_num, 13, my_row.first_quarter)
+		ws.write(row_num, 14,  my_row.second_quarter_fact)
+		ws.write(row_num, 15,  my_row.second_quarter)
+		ws.write(row_num, 16, my_row.third_quarter_fact)
+		ws.write(row_num, 17, my_row.third_quarter)
+		ws.write(row_num, 18, my_row.reason)
+		ws.write(row_num, 19, my_row.measure)
+		ws.write(row_num, 20, my_row.forecast)
+		ws.write(row_num, 21, my_row.verificator)
+		ws.write(row_num, 22, my_row.updated_at.replace(tzinfo=None), format_date)
+		ws.write(row_num, 23, my_row.name_of_user)
+		ws.write(row_num, 24, my_row.status_list[my_row.status][1])
 
 	workbook.close()
 	return response
@@ -127,7 +129,7 @@ def download_excel_admin_log(request):
 			   'КПЭ / КлС2', 'Наименование КПЭ / КлС', 'Тип КПЭ/КлС',
 			    'Нижний уровень', "Целевой уровень",
 			   "Верхний уровень", "Вес КПЭ/Значимость КлС", "Комментарий СУП УК",
-			   "Прогноз 1 кв", "Прогноз 2 кв", "Прогноз 3 кв", "Прогноз 4 кв",
+			   "Факт 1 кв", "Прогноз 1 кв", "Факт 2 кв", "Прогноз 2 кв", "Факт 3 кв", "Прогноз 3 кв",
 			   "Причина отклонения", "Мероприятия по снижению риска невыполнения", "Прогнозируемый результат после реализации мероприятий",
 			   "Верификатор", "Последнее обновление", "ФИО пользователя", "Статуc"]
 	row_num = 0
@@ -149,17 +151,19 @@ def download_excel_admin_log(request):
 		ws.write(row_num, 9, my_row.high_level)
 		ws.write(row_num, 10, my_row.weight)
 		ws.write(row_num, 11, my_row.comment)
-		ws.write(row_num, 12, my_row.first_quarter)
-		ws.write(row_num, 13,  my_row.second_quarter)
-		ws.write(row_num, 14, my_row.third_quarter)
-		ws.write(row_num, 15, my_row.fourth_quarter)
-		ws.write(row_num, 16, my_row.reason)
-		ws.write(row_num, 17, my_row.measure)
-		ws.write(row_num, 18, my_row.forecast)
-		ws.write(row_num, 19, my_row.verificator)
-		ws.write(row_num, 20, my_row.updated_at.replace(tzinfo=None), format_date)
-		ws.write(row_num, 21, my_row.name_of_user)
-		ws.write(row_num, 22, my_row.status_list[my_row.status][1])
+		ws.write(row_num, 12, my_row.first_quarter_fact)
+		ws.write(row_num, 13, my_row.first_quarter)
+		ws.write(row_num, 14,  my_row.second_quarter_fact)
+		ws.write(row_num, 15,  my_row.second_quarter)
+		ws.write(row_num, 16, my_row.third_quarter_fact)
+		ws.write(row_num, 17, my_row.third_quarter)
+		ws.write(row_num, 18, my_row.reason)
+		ws.write(row_num, 19, my_row.measure)
+		ws.write(row_num, 20, my_row.forecast)
+		ws.write(row_num, 21, my_row.verificator)
+		ws.write(row_num, 22, my_row.updated_at.replace(tzinfo=None), format_date)
+		ws.write(row_num, 23, my_row.name_of_user)
+		ws.write(row_num, 24, my_row.status_list[my_row.status][1])
 
 	workbook.close()
 	return response
@@ -197,7 +201,7 @@ def download_excel_user(request):
 			   'КПЭ / КлС2', 'Наименование КПЭ / КлС', 'Тип КПЭ/КлС',
 			    'Нижний уровень', "Целевой уровень",
 			   "Верхний уровень", "Вес КПЭ/Значимость КлС", "Комментарий СУП УК",
-			   "Прогноз 1 кв", "Прогноз 2 кв", "Прогноз 3 кв", "Прогноз 4 кв",
+			   "Факт 1 кв", "Прогноз 1 кв", "Факт 2 кв", "Прогноз 2 кв", "Факт 3 кв", "Прогноз 3 кв",
 			   "Причина отклонения", "Мероприятия по снижению риска невыполнения", "Прогнозируемый результат после реализации мероприятий",
 			   "Верификатор"
 			   ]
@@ -220,14 +224,16 @@ def download_excel_user(request):
 		ws.write(row_num, 9, my_row.high_level)
 		ws.write(row_num, 10, my_row.weight)
 		ws.write(row_num, 11, my_row.comment)
-		ws.write(row_num, 12, my_row.first_quarter)
-		ws.write(row_num, 13,  my_row.second_quarter)
-		ws.write(row_num, 14, my_row.third_quarter)
-		ws.write(row_num, 15, my_row.fourth_quarter)
-		ws.write(row_num, 16, my_row.reason)
-		ws.write(row_num, 17, my_row.measure)
-		ws.write(row_num, 18, my_row.forecast)
-		ws.write(row_num, 19, my_row.verificator)
+		ws.write(row_num, 12, my_row.first_quarter_fact)
+		ws.write(row_num, 13, my_row.first_quarter)
+		ws.write(row_num, 14,  my_row.second_quarter_fact)
+		ws.write(row_num, 15,  my_row.second_quarter)
+		ws.write(row_num, 16, my_row.third_quarter_fact)
+		ws.write(row_num, 17, my_row.third_quarter)
+		ws.write(row_num, 18, my_row.reason)
+		ws.write(row_num, 19, my_row.measure)
+		ws.write(row_num, 20, my_row.forecast)
+		ws.write(row_num, 21, my_row.verificator)
 
 	workbook.close()
 	return response
