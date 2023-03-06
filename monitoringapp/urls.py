@@ -21,6 +21,7 @@ urlpatterns = [
     path("userdownload/", download_excel_user, name='download_user'),
     path("admindownload/", download_excel_admin, name='download_admin'),
     path("admindownloadlog/", download_excel_admin_log, name='download_admin_log'),
+    path("admindownloadpres/", download_admin_pres, name='download_admin_pres'),
 
     # path("user_default/", views.cards_update_view, name='update'),
     # path("close/", close_edit, name='close'),

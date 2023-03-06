@@ -6,6 +6,10 @@ import xlwt
 from django.http import HttpResponse
 from ..models import *
 import xlsxwriter
+from pptx import Presentation
+from pptx.util import Inches, Pt
+from io import BytesIO
+import io
 
 
 def get_update_data_not_fix():
@@ -166,6 +170,60 @@ def download_excel_admin_log(request):
 		ws.write(row_num, 24, my_row.status_list[my_row.status][1])
 
 	workbook.close()
+	return response
+
+
+def download_admin_pres(request):
+	today = "Consolidated_pres_{}".format(datetime.datetime.today().strftime("%d.%m.%Y"))
+	prs = Presentation()
+	slide = prs.slides.add_slide(prs.slide_layouts[0])
+	slide.shapes[0].text = 'Title'
+
+	data = get_update_data_not_fix()
+	organization_list = []  # Создаем массив, который заполнится из базы данных
+	fio_list = []
+	name_list=[]
+	for my_row in data:
+		organization_list.append(my_row.organization)
+		fio_list.append(my_row.fio)
+		name_list.append(my_row.name)
+
+	old_counter = 0
+	counter = 0
+	row_num = 3
+	while counter < 21:
+	# while counter < len(organization_list):
+		if len(organization_list) - counter < row_num:
+			counter += len(organization_list) - counter
+		else:
+			counter += row_num
+		col_num = 3
+		slide = prs.slides.add_slide(prs.slide_layouts[6])
+		x, y, cx, cy = Inches(0.2), Inches(1.3), Inches(9.6), Inches(3)
+		shape = slide.shapes.add_table(counter - old_counter, col_num, x, y, cx, cy)
+		table = shape.table
+		tbl = shape._element.graphic.graphicData.tbl
+		style_id = '{5940675A-B579-460E-94D1-54222C63F5DA}'
+		tbl[0][-1].text = style_id
+		table.columns[0].width = Inches(2)
+		for i in range(old_counter, counter):
+			for j in range(col_num):
+				cell = table.cell(i - old_counter, j)
+				if j % col_num == 0:
+					cell.text = organization_list[i]
+				if j % col_num == 1:
+					cell.text = fio_list[i]
+				if j % col_num == 2:
+					cell.text = name_list[i]
+		old_counter = counter
+
+	response = HttpResponse(content_type='application/vnd.ms-powerpoint')
+	response['Content-Disposition'] = 'attachment; filename="{}.pptx"'.format(today)
+	source_stream = BytesIO()
+	prs.save(source_stream)
+	ppt = source_stream.getvalue()
+	source_stream.close()
+	response.write(ppt)
 	return response
 
 
