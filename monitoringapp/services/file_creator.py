@@ -2,6 +2,7 @@ import datetime
 import pandas as pd
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 import xlwt
 from django.http import HttpResponse
 from ..models import *
@@ -174,48 +175,73 @@ def download_excel_admin_log(request):
 
 
 def download_admin_pres(request):
-	today = "Consolidated_pres_{}".format(datetime.datetime.today().strftime("%d.%m.%Y"))
-	prs = Presentation()
-	slide = prs.slides.add_slide(prs.slide_layouts[0])
-	slide.shapes[0].text = 'Title'
+	# Удалим лишние записи из базы (раскомментировать, чтобы из полной базы удалить)
+	#Card.objects.exclude(verificator__in=['Хвалько А.А.', 'Жуков А.Г.', '-']).delete()
+	#Card.objects.filter(verificator='-').exclude(fio='Хвалько Александр Алексеевич').delete()
 
+	today = "Consolidated_pres_{}".format(datetime.datetime.today().strftime("%d.%m.%Y"))
+	# prs = Presentation() # Если нужно создавать пустую презентацию
+	#
+	# slide = prs.slides.add_slide(prs.slide_layouts[0])
+	# slide.shapes[0].text = 'Title'
+	#
+	prs = Presentation(r'H:\MyDocs\Данила\Консист-ОС\Мониторинг КПЭ ТОП-50 III квартал_v3.pptx')
+	# print(prs.slides[3].shapes[0].table.rows[2].cells[3].text)
+	slide = prs.slides[3]
 	data = get_update_data_not_fix()
-	organization_list = []  # Создаем массив, который заполнится из базы данных
+	organization_list = []  # Создаем массивы, которые заполнятся из базы данных
 	fio_list = []
 	name_list=[]
 	for my_row in data:
 		organization_list.append(my_row.organization)
 		fio_list.append(my_row.fio)
 		name_list.append(my_row.name)
+	df = pd.DataFrame({'Наименование КПЭ': name_list, 'ФИО': fio_list})
+	df = df.groupby('Наименование КПЭ').agg(ФИО=('ФИО', list))  # Агрегируем датафрейм по фамилиям
+	x, y, cx, cy = Inches(0.2), Inches(1.3), Inches(9.6), Inches(3)
+	shape = slide.shapes.add_table(df.shape[0]+1, df.shape[1] + 1, x, y, cx, cy)
+	table = shape.table
+	table.cell(0, 0).text = 'Наименование КПЭ'
+	table.cell(0, 1).text = 'ФИО'
+	for i in range(df.shape[0]):
+		table.cell(i+1, 0).text = df.index[i] # Первая колонка - индексы (название КПЭ)
+		for j in range(df.shape[1]):
+			df_str_iter = ''
+			for k in range(len(df.iloc[i][j])):
+				df_str_iter = df_str_iter + df.iloc[i][j][k] + '\n' # Остальные колонки - фамилии
+			df.iloc[i][j] = df_str_iter
+			print(df.iloc[i][0])
+			table.cell(i+1, j+1).text = df.iloc[i][j]
 
-	old_counter = 0
-	counter = 0
-	row_num = 3
-	while counter < 21:
+	tbl = shape._element.graphic.graphicData.tbl
+	#
+	# old_counter = 0 # Поместим на каждый слайд таблицы по 3 строки (в итоге вся база, 3 колонки)
+	# counter = 0
+	# row_num = 3
 	# while counter < len(organization_list):
-		if len(organization_list) - counter < row_num:
-			counter += len(organization_list) - counter
-		else:
-			counter += row_num
-		col_num = 3
-		slide = prs.slides.add_slide(prs.slide_layouts[6])
-		x, y, cx, cy = Inches(0.2), Inches(1.3), Inches(9.6), Inches(3)
-		shape = slide.shapes.add_table(counter - old_counter, col_num, x, y, cx, cy)
-		table = shape.table
-		tbl = shape._element.graphic.graphicData.tbl
-		style_id = '{5940675A-B579-460E-94D1-54222C63F5DA}'
-		tbl[0][-1].text = style_id
-		table.columns[0].width = Inches(2)
-		for i in range(old_counter, counter):
-			for j in range(col_num):
-				cell = table.cell(i - old_counter, j)
-				if j % col_num == 0:
-					cell.text = organization_list[i]
-				if j % col_num == 1:
-					cell.text = fio_list[i]
-				if j % col_num == 2:
-					cell.text = name_list[i]
-		old_counter = counter
+	# 	if len(organization_list) - counter < row_num:
+	# 		counter += len(organization_list) - counter
+	# 	else:
+	# 		counter += row_num
+	# 	col_num = 3
+	# 	slide = prs.slides.add_slide(prs.slide_layouts[6])
+	# 	x, y, cx, cy = Inches(0.2), Inches(1.3), Inches(9.6), Inches(3)
+	# 	shape = slide.shapes.add_table(counter - old_counter, col_num, x, y, cx, cy)
+	# 	table = shape.table
+	# 	tbl = shape._element.graphic.graphicData.tbl
+	# 	style_id = '{5940675A-B579-460E-94D1-54222C63F5DA}'
+	# 	tbl[0][-1].text = style_id
+	# 	table.columns[0].width = Inches(2)
+	# 	for i in range(old_counter, counter):
+	# 		for j in range(col_num):
+	# 			cell = table.cell(i - old_counter, j)
+	# 			if j % col_num == 0:
+	# 				cell.text = organization_list[i]
+	# 			if j % col_num == 1:
+	# 				cell.text = fio_list[i]
+	# 			if j % col_num == 2:
+	# 				cell.text = name_list[i]
+	# 	old_counter = counter
 
 	response = HttpResponse(content_type='application/vnd.ms-powerpoint')
 	response['Content-Disposition'] = 'attachment; filename="{}.pptx"'.format(today)

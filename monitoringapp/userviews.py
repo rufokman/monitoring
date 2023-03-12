@@ -134,11 +134,12 @@ def import_excel(request):
                 dflist.append(list(dbframe.iloc[i]))
             # Получим список мультиверификаторных записей
             list_value = []  # Записи с мультмиверификаторами
-            names = []  # Массив разбитых имен мильтиверификаторов
+            names = []  # Массив разбитых имен мультиверификаторов
             for i in dbframe.index:
                 if (dbframe['Верификатор'][i] == dbframe['Верификатор'][i]) and ('/' in str(dbframe['Верификатор'][i])):
                     names.append(str(dbframe['Верификатор'][i]).replace('/ ', '/').split('/'))
                     list_value.append(list(dbframe.iloc[i]))
+
             # Получим список записей с разбитыми мультиверификаторными записями
             i = 0
             k = 0  # Индекс в массиве мультиверификаторных записей
@@ -147,7 +148,8 @@ def import_excel(request):
                     dflist.pop(i)
                     for t in range(len(names[k])):
                         dflist.insert(i + t, list_value[k].copy())
-                        dflist[i + t][-1] = names[k][t]
+                        dflist[i + t][-2] = names[k][t]  # ЭТОТ ИНДЕКС МЕНЯЕТСЯ ПРИ ИЗМЕНЕНИИ СТРУКТУРЫ ВХОДНОЙ ТАБЛИЦЫ!!!
+                        # print(dflist[i + t])
                     k += 1
                 i += 1
             # Осуществим обратное преобразование в датафрейм
@@ -165,7 +167,7 @@ def import_excel(request):
                                           name=dbframe[5], method=dbframe[6],
                                           low_level=dbframe[7], target_level=dbframe[8],
                                           high_level=dbframe[9], weight=dbframe[10],
-                                          verificator=dbframe[11])
+                                          verificator=dbframe[11], group=dbframe[12]) # ЭТА СТРУКТУРА МЕНЯЕТСЯ ПРИ ИЗМЕНЕНИИ СТРУКТУРЫ ВХОДНОЙ ТАБЛИЦЫ!!!
                 obj.save()
 
             return render(request, 'import_excel.html', {
